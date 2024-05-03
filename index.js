@@ -44,11 +44,11 @@ app.post('/api/users/:_id/exercises', (req, res)=>{
     user.count += 1;
     user.log.push({
       description: req.body.description,
-      duration: req.body.duration,
+      duration: parseInt(req.body.duration),
       date: req.body.date===''? new Date().toDateString() : new Date(req.body.date).toDateString()
-    })
+    });
     user.save();
-    res.json({_id: user._id, username: user.username, date: user.log[user.log.length-1].date, duration: user.log[user.log.length-1].duration, description: user.log[user.log.length-1].description})
+    res.json({_id: user._id, username: user.username, date: req.body.date===''? new Date().toDateString() : new Date(req.body.date).toDateString(), duration: parseInt(req.body.duration), description: req.body.description})
   });
 })
 
