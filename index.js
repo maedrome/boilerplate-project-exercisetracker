@@ -52,6 +52,12 @@ app.post('/api/users/:_id/exercises', (req, res)=>{
   });
 })
 
+app.get('/api/users', (req, res)=>{
+  User.find({}).then((users)=>{
+    res.json(users.map((user) => {return {_id:user.id, username: user.username, __v:user.__v}}));
+  });
+});
+
 app.get('/api/users/:_id/logs', (req, res) => {
   const userId = req.params._id;
   const from = req.query.from;
