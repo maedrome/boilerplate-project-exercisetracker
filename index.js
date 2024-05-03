@@ -45,10 +45,17 @@ app.post('/api/users/:_id/exercises', (req, res)=>{
     user.log.push({
       description: req.body.description,
       duration: parseInt(req.body.duration),
-      date: req.body.date===''? new Date().toDateString() : new Date(req.body.date).toDateString()
+      date: req.body.date===undefined || req.body.date===''? new Date().toDateString() : new Date(req.body.date).toDateString()
     });
     user.save().then(()=>{
-      res.json({_id: user._id, username: user.username, date: req.body.date===''? new Date().toDateString() : new Date(req.body.date).toDateString(), duration: parseInt(req.body.duration), description: req.body.description})
+      res.json({
+        _id: user._id,
+        username: user.username,
+        count: user.count,
+        date: user.log[user.log.length-1].date,
+        duration: user.log[user.log.length-1].duration,
+        description: user.log[user.log.length-1].description
+      });
     });
     
   });
